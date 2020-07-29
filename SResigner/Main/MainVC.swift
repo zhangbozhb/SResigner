@@ -96,10 +96,11 @@ class MainVC: NSViewController, NSTableViewDelegate, NSTableViewDataSource, Drag
     //MARK: 点击 选择Ipa
     @IBAction func onclickChooseIpaBtn(_ sender: Any) {
         let openPanel: NSOpenPanel = NSOpenPanel.init()
-        openPanel.allowsMultipleSelection = true
+        openPanel.allowsMultipleSelection = false
         openPanel.canChooseDirectories = false
         openPanel.canChooseFiles = true
         openPanel.allowedFileTypes = ["ipa"]
+        openPanel.directoryURL = URL.init(fileURLWithPath: NSHomeDirectory())
         openPanel.beginSheetModal(for: self.view.window!) { (resp: NSApplication.ModalResponse) in
             if resp == NSApplication.ModalResponse.OK{
                 self.onChoosedToBeInjectedFile(openPanel.url!.path.removingPercentEncoding!)
@@ -146,6 +147,9 @@ class MainVC: NSViewController, NSTableViewDelegate, NSTableViewDataSource, Drag
         openPanel.canChooseDirectories = false
         openPanel.canChooseFiles = true
         openPanel.allowedFileTypes = ["mobileprovision"]
+        if let lib = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).first {
+            openPanel.directoryURL = lib.appendingPathComponent("MobileDevice/Provisioning Profiles", isDirectory: true)
+        }
         openPanel.begin { (resp: NSApplication.ModalResponse) in
             if resp != NSApplication.ModalResponse.OK{
                 return
