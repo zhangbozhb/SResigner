@@ -28,6 +28,9 @@ class MainVC: NSViewController, NSTableViewDelegate, NSTableViewDataSource, Drag
     var _dsOfDylibLinksTbv: [DylibLinkItem] = []
     var _dylibLinkTbvDelegate: DylibLinkTbvDelegate!
     
+    /// 上次选择的动态库
+    var _lastSelectedDylibLink: String?
+    
     private var _currentChoosedPPFPath: String!
     private var _rawIpaPayloadHandler: IpaPayloadHandle!
     private var _rawMachoLinks: [DylibLinkItem] = []
@@ -100,7 +103,11 @@ class MainVC: NSViewController, NSTableViewDelegate, NSTableViewDataSource, Drag
         openPanel.canChooseDirectories = false
         openPanel.canChooseFiles = true
         openPanel.allowedFileTypes = ["ipa"]
-        openPanel.directoryURL = URL.init(fileURLWithPath: NSHomeDirectory())
+        if !FileManager.default.currentDirectoryPath.lowercased().contains("DerivedData".lowercased()) {
+            openPanel.directoryURL = URL.init(fileURLWithPath: FileManager.default.currentDirectoryPath)
+        } else {
+            openPanel.directoryURL = URL.init(fileURLWithPath: NSHomeDirectory())
+        }
         openPanel.beginSheetModal(for: self.view.window!) { (resp: NSApplication.ModalResponse) in
             if resp == NSApplication.ModalResponse.OK{
                 self.onChoosedToBeInjectedFile(openPanel.url!.path.removingPercentEncoding!)
@@ -110,9 +117,13 @@ class MainVC: NSViewController, NSTableViewDelegate, NSTableViewDataSource, Drag
     //MARK: 点击 '+' 动态库
     @IBAction func onclickAddDylibLinkBtn(_ sender: Any) {
         let vc = EmbResourceSelectVC.init(resourceType: .arbitrary)
+        if let pre = self._lastSelectedDylibLink {
+            vc.targetFolder = URL.init(fileURLWithPath: pre).deletingLastPathComponent()
+        }
         vc.onSelectedPathConfirmed = { (injectResourcePath: String, link: String) -> Void in
             self.dismiss(vc)
             
+            self._lastSelectedDylibLink = link
             let linkItem = DylibLinkItem(type: .userInject, link: link, injectResourcePath: injectResourcePath)
             self._dsOfDylibLinksTbv.removeAll(where: {$0.link == link})
             self._dsOfDylibLinksTbv.insert(linkItem, at: 0)
@@ -147,9 +158,13 @@ class MainVC: NSViewController, NSTableViewDelegate, NSTableViewDataSource, Drag
         openPanel.canChooseDirectories = false
         openPanel.canChooseFiles = true
         openPanel.allowedFileTypes = ["mobileprovision"]
-        if let lib = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).first {
+        
+        if let pre = self._currentChoosedPPFPath, !pre.isEmpty {
+            openPanel.directoryURL = URL.init(fileURLWithPath: pre).deletingLastPathComponent()
+        } else if let lib = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).first {
             openPanel.directoryURL = lib.appendingPathComponent("MobileDevice/Provisioning Profiles", isDirectory: true)
         }
+        
         openPanel.begin { (resp: NSApplication.ModalResponse) in
             if resp != NSApplication.ModalResponse.OK{
                 return

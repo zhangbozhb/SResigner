@@ -564,11 +564,11 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 3NBFC5CV2N;
+				DEVELOPMENT_TEAM = UX4M94A8J7;
 				INFOPLIST_FILE = SResigner/Support/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = com.cjs.lj.SResigner;
+				PRODUCT_BUNDLE_IDENTIFIER = com.travel.lj.SResigner;
 				PRODUCT_NAME = SResigner;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -588,11 +588,11 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 3NBFC5CV2N;
+				DEVELOPMENT_TEAM = UX4M94A8J7;
 				INFOPLIST_FILE = SResigner/Support/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = com.cjs.lj.SResigner;
+				PRODUCT_BUNDLE_IDENTIFIER = com.travel.lj.SResigner;
 				PRODUCT_NAME = SResigner;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "SResigner/SResigner-Bridging-Header.h";

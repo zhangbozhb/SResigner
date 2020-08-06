@@ -7,7 +7,7 @@ DEPENDENCIES:
   - SnapKit (~> 4.0.0)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  "git@code.byted.org:iOS_Library/publicthird_source_repo.git":
     - SnapKit
 
 EXTERNAL SOURCES:
@@ -21,8 +21,8 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   MachoHandle: 1d8d9586d7290343a641651683087e4b5f6ddf46
-  SnapKit: 0de968a9fec17499afa29683b05d0c775b6d1c29
+  SnapKit: 24cb44eb22082a69245f019b826dac34edfee158
 
 PODFILE CHECKSUM: e9e3d78c5e36555cc283850e16e507652cdbfffe
 
-COCOAPODS: 1.7.5
+COCOAPODS: 1.9.3

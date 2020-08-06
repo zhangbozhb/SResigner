@@ -19,6 +19,10 @@ class EmbResourceSelectVC: NSViewController {
     var onCanceled: (()->Void)?
     var onSelectedPathConfirmed: ((_ injectResourcePath: String, _ link: String)->Void)?
     let resourceType: ResourceType
+    
+    /// 目标目录
+    var targetFolder: URL?
+    
     init(resourceType: ResourceType) {
         self.resourceType = resourceType
         super.init(nibName: NSNib.Name.init("EmbResourceSelectVC"), bundle: nil)
@@ -41,6 +45,16 @@ class EmbResourceSelectVC: NSViewController {
         openPanel.canChooseDirectories = true
         openPanel.canChooseFiles = true
 //        openPanel.allowedFileTypes = ["dylib","framework"]
+        if let pre = self.targetFolder {
+            openPanel.directoryURL = pre
+        } else {
+            if !FileManager.default.currentDirectoryPath.lowercased().contains("DerivedData".lowercased()) {
+                openPanel.directoryURL = URL.init(fileURLWithPath: FileManager.default.currentDirectoryPath)
+            } else {
+                openPanel.directoryURL = URL.init(fileURLWithPath: NSHomeDirectory())
+            }
+        }
+        
         openPanel.beginSheetModal(for: self.view.window!) { (resp: NSApplication.ModalResponse) in
             if resp == NSApplication.ModalResponse.OK{
                 let filePath = openPanel.url!
